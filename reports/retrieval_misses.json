@@ -19,5 +19,23 @@
       "n": 85,
       "hit3": 0.6706
     }
+  },
+  "paragraphs_contained_in_a_longer_one": 76,
+  "answer_text_in_retrieved_paragraphs": {
+    "BM25 + light stemming": {
+      "answer_in_top1": 0.7145,
+      "answer_in_top3": 0.8694,
+      "answer_in_top5": 0.9053
+    },
+    "Dense: multilingual-e5-small": {
+      "answer_in_top1": 0.6915,
+      "answer_in_top3": 0.8637,
+      "answer_in_top5": 0.9053
+    },
+    "Hybrid": {
+      "answer_in_top1": 0.7432,
+      "answer_in_top3": 0.8953,
+      "answer_in_top5": 0.924
+    }
   }
 }
