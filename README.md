@@ -1,5 +1,7 @@
 # Arabic RAG Assistant
 
+[![tests](https://github.com/eslammohibrahim/arabic-rag-assistant/actions/workflows/tests.yml/badge.svg)](https://github.com/eslammohibrahim/arabic-rag-assistant/actions/workflows/tests.yml)
+
 A question-answering assistant for Arabic. It searches a collection of Arabic Wikipedia paragraphs, hands the most relevant ones to a small local language model, and returns a short answer together with its sources. Everything runs on a laptop CPU, with no paid API.
 
 **Results:**
