@@ -1,0 +1,42 @@
+{
+  "model": "qwen2.5:1.5b",
+  "retriever": "Hybrid: BM25 + light stemming + multilingual-e5-small",
+  "k": 3,
+  "summary": {
+    "closed_book": {
+      "exact_match": 0.0033,
+      "f1": 0.109,
+      "contains_answer": 0.0333,
+      "says_unknown": 0.0,
+      "seconds_per_question": 1.5
+    },
+    "rag": {
+      "exact_match": 0.23,
+      "f1": 0.5031,
+      "contains_answer": 0.3633,
+      "says_unknown": 0.0033,
+      "seconds_per_question": 14.48
+    },
+    "oracle": {
+      "exact_match": 0.2933,
+      "f1": 0.612,
+      "contains_answer": 0.4333,
+      "says_unknown": 0.0067,
+      "seconds_per_question": 2.2
+    },
+    "rag_when_retrieval_found_paragraph": {
+      "exact_match": 0.2706,
+      "f1": 0.5786,
+      "contains_answer": 0.4118,
+      "says_unknown": 0.0,
+      "questions": 255
+    },
+    "rag_when_retrieval_missed": {
+      "exact_match": 0.0,
+      "f1": 0.0751,
+      "contains_answer": 0.0889,
+      "says_unknown": 0.0222,
+      "questions": 45
+    }
+  }
+}
