@@ -1,0 +1,23 @@
+{
+  "overall_hit3": 0.8895,
+  "mentions_subject": {
+    "False": {
+      "n": 253,
+      "hit3": 0.7708
+    },
+    "True": {
+      "n": 444,
+      "hit3": 0.9572
+    }
+  },
+  "short_questions": {
+    "False": {
+      "n": 612,
+      "hit3": 0.9199
+    },
+    "True": {
+      "n": 85,
+      "hit3": 0.6706
+    }
+  }
+}

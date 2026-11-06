@@ -1,0 +1,103 @@
+{
+  "chosen": "Hybrid: BM25 + light stemming + multilingual-e5-small",
+  "best_bm25": "BM25 + light stemming",
+  "best_dense": "Dense: multilingual-e5-small",
+  "results": {
+    "BM25, no stemming": {
+      "dev": {
+        "recall@1": 0.6049,
+        "recall@3": 0.8321,
+        "recall@5": 0.8683,
+        "recall@10": 0.9146,
+        "mrr@10": 0.7186
+      },
+      "test": {
+        "recall@1": 0.627,
+        "recall@3": 0.8293,
+        "recall@5": 0.8795,
+        "recall@10": 0.9125,
+        "mrr@10": 0.7352
+      }
+    },
+    "BM25 + light stemming": {
+      "dev": {
+        "recall@1": 0.6498,
+        "recall@3": 0.8698,
+        "recall@5": 0.9117,
+        "recall@10": 0.9407,
+        "mrr@10": 0.7604
+      },
+      "test": {
+        "recall@1": 0.6528,
+        "recall@3": 0.8594,
+        "recall@5": 0.8967,
+        "recall@10": 0.9383,
+        "mrr@10": 0.7609
+      }
+    },
+    "Dense: multilingual-e5-small": {
+      "dev": {
+        "recall@1": 0.657,
+        "recall@3": 0.8886,
+        "recall@5": 0.9117,
+        "recall@10": 0.9493,
+        "mrr@10": 0.7736
+      },
+      "test": {
+        "recall@1": 0.6112,
+        "recall@3": 0.858,
+        "recall@5": 0.9024,
+        "recall@10": 0.9397,
+        "mrr@10": 0.7387
+      }
+    },
+    "Dense: multilingual-e5-base": {
+      "dev": {
+        "recall@1": 0.6382,
+        "recall@3": 0.8813,
+        "recall@5": 0.9204,
+        "recall@10": 0.9493,
+        "mrr@10": 0.7617
+      },
+      "test": {
+        "recall@1": 0.6198,
+        "recall@3": 0.8651,
+        "recall@5": 0.9154,
+        "recall@10": 0.944,
+        "mrr@10": 0.7477
+      }
+    },
+    "Dense: paraphrase-multilingual-MiniLM-L12-v2": {
+      "dev": {
+        "recall@1": 0.3357,
+        "recall@3": 0.5543,
+        "recall@5": 0.6266,
+        "recall@10": 0.7091,
+        "mrr@10": 0.4639
+      },
+      "test": {
+        "recall@1": 0.3386,
+        "recall@3": 0.5452,
+        "recall@5": 0.604,
+        "recall@10": 0.6786,
+        "mrr@10": 0.4547
+      }
+    },
+    "Hybrid: BM25 + light stemming + multilingual-e5-small": {
+      "dev": {
+        "recall@1": 0.6787,
+        "recall@3": 0.9146,
+        "recall@5": 0.9407,
+        "recall@10": 0.9624,
+        "mrr@10": 0.7956
+      },
+      "test": {
+        "recall@1": 0.6801,
+        "recall@3": 0.8895,
+        "recall@5": 0.9225,
+        "recall@10": 0.9412,
+        "mrr@10": 0.7843
+      }
+    }
+  }
+}
