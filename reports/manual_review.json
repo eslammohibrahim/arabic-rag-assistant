@@ -1,0 +1,471 @@
+{
+  "summary": {
+    "reviewed": 50,
+    "correct": 27,
+    "partial": 2,
+    "wrong": 21,
+    "when_paragraph_found": {
+      "correct": 27,
+      "partial": 2,
+      "wrong": 11
+    },
+    "when_retrieval_missed": {
+      "correct": 0,
+      "partial": 0,
+      "wrong": 10
+    },
+    "how": "50 random RAG answers (seed 7) read against the paragraph that contains the answer. Correct = states the fact asked for, even if worded differently from the reference."
+  },
+  "answers": [
+    {
+      "n": 1,
+      "question": "في أي مدينة تأسست فرقة إكسو؟",
+      "reference": "مدينة سول بكوريا الجنوبية.",
+      "rag_answer": "في مدينة سول بكوريا الجنوبية.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 2,
+      "question": "في اي عام حصل نادي ليفربول بطولة دوري لانكشاير؟",
+      "reference": "1892،",
+      "rag_answer": "1892",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 3,
+      "question": "هل مسكن ترامادول يسبب اي نوع ادمان؟",
+      "reference": "وهو يسبب ادمانا ولكن بصفة أقل من باقي المورفينات",
+      "rag_answer": "يدمرب على المستقبلات المورفينية.",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "garbled text"
+    },
+    {
+      "n": 4,
+      "question": "ما اصل كلمة كندا؟",
+      "reference": "\"كنتا\"، وهي كلمة ترجع إلى لغة الإيروكواس في سانت لورانس وتعني قرية أو مستوطنة.",
+      "rag_answer": "كندا تعود إلى \"كنتا\"، وهي كلمة ترجع إلى لغة الإيروكواس.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 5,
+      "question": "لماذا صنفت سور القران مدنيه و مكية؟",
+      "reference": "وفقاً لمكان وزمان نزول الوحي بها.",
+      "rag_answer": "سور القرآن مصنفة كمسیکة و مکیقة بسبب موقع نزولها في القرآن الكريم. سورة الملك هي سور کردیة و عدد آیتھا 30 آیة، وهي أول سورة في الجزء التاسع والعشرين والحزب السابع و الخمسون.",
+      "retrieval_found_paragraph": true,
+      "judgement": "partial",
+      "note": "right idea (place of revelation) but garbled and padded with unrelated text"
+    },
+    {
+      "n": 6,
+      "question": "كم كان عمر اللاعب رونالدو عند فوزه بجائزه الفيفا لكونه افضل لاعب لأول مره؟",
+      "reference": "فاز بجائزة الفيفا لأفضل لاعب في العالم وهو بسنّ العشرين عاماً عام 1996،",
+      "rag_answer": "16 سنة",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "wrong number (16 instead of 20)"
+    },
+    {
+      "n": 7,
+      "question": "ما الاسماء الاخرى اللتى اعطت لجندح؟",
+      "reference": "فورد باسم جندح وحندج ومليكة وعدي،",
+      "rag_answer": "أفضل الإجابات هي الإسكندر الأكبر، والإسكندر الكبير، والإسكندر المقدوني، والإسكندر ذو القرنين.",
+      "retrieval_found_paragraph": false,
+      "judgement": "wrong",
+      "note": ""
+    },
+    {
+      "n": 8,
+      "question": "ماذا يفصل انجلترا عن القارة الاوروبية؟",
+      "reference": "القناة الإنجليزية",
+      "rag_answer": "قناة الإنجليزية.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 9,
+      "question": "لماذا ذهب الرسول (ص) إلى الطائف؟",
+      "reference": "يدعوهم إلى الإسلام و التوحيد",
+      "rag_answer": "ذهبت الرسول محمد صلى الله عليه وسلم إلى الطائف لدعوتهم إلى الإسلام و التوحيد.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 10,
+      "question": "ما هو اهم حدث خلال المرحله الولى من الثوره",
+      "reference": "ألغي نظام الإقطاع والقواعد والامتيازات القديمة التي خلفها حكم أترافي.",
+      "rag_answer": "أهم حدث خلال المرحلة الأولى من الثورة الفرنسية كان إلغاء نظام الإقطاع والامتيازات القديمة التي خلفها حكم أترافي.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 11,
+      "question": "ما الاسم الاخر للروم؟",
+      "reference": "(الإمبراطورية البيزنطية)،",
+      "rag_answer": "الإمبراطورية البيزنطية.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 12,
+      "question": "متى انتقلت شاكيرا الى بوغوتا؟",
+      "reference": "وفي عمر الثالثة عشرة",
+      "rag_answer": "أنتقلت إلى بوغوتا في عمر الثالثة عشرة.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 13,
+      "question": "ما هى المنظمات الاخرى المشيركة بها اذربيجان؟",
+      "reference": "المتحدة ومنظمة الأمن والتعاون في أوروبا ومجلس أوروبا وبرنامج الشراكة من أجل السلام لمنظمة",
+      "rag_answer": "منظمة التجارة العالمية، الاتحاد الدولي للاتصالات، حركة عدم الانحياز.",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "organizations not in the paragraph"
+    },
+    {
+      "n": 14,
+      "question": "ماهو أول منصب حكومي شغله نجيب محفوظ؟",
+      "reference": "سكرتيراً برلمانياً في وزارة الأوقاف",
+      "rag_answer": "لم يتم ذكر أي منصب حكومي كان يشغله نجيب محفوظ في النصوص المعطاة.",
+      "retrieval_found_paragraph": false,
+      "judgement": "wrong",
+      "note": "retrieval missed; model correctly said the answer is not in the texts"
+    },
+    {
+      "n": 15,
+      "question": "من ام جندح؟",
+      "reference": "فاطمة بنت ربيعة أخت كليب",
+      "rag_answer": "أبي وهب",
+      "retrieval_found_paragraph": false,
+      "judgement": "wrong",
+      "note": ""
+    },
+    {
+      "n": 16,
+      "question": "ماذا حدث للامبراطورية المنغولية بعد موت قوبلاي خان؟",
+      "reference": "انقسمت الإمبراطورية إلى أربعة خانات أو إمبراطوريات، كل منها يهدف لتحقيق مصالحه واهتماماته الخاصة،",
+      "rag_answer": "بعد موت قوبلاي خان، اقسمت الإمبراطورية إلى أربعة خانات أو إمبراطوريات.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 17,
+      "question": "ما هو النادي الاهلي للرياضة البدنية؟",
+      "reference": "مشجعيه اختصاراً باسم النادي الأهلي، هو نادٍ رياضي مصري محترف في مدينة القاهرة يلعب",
+      "rag_answer": "النادي الأهلي للرياضة البدنية.",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "repeats the question"
+    },
+    {
+      "n": 18,
+      "question": "متى توقفت الحرب الأهلية في السودان؟",
+      "reference": "2005",
+      "rag_answer": "توقفت الحرب الأهلية في السودان بالتوقيع على اتفاقية السلام الشامل بين الحكومة المركزية وحركات المتمردين في 2005.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 19,
+      "question": "بماذا تأثر عثمان الأول؟",
+      "reference": "لِتأثره بِمُعتقدات الدراويش الصوفيَّة،",
+      "rag_answer": "عثمان الأول تأثر بخلفيته العلوية من آل عثمان.",
+      "retrieval_found_paragraph": false,
+      "judgement": "wrong",
+      "note": ""
+    },
+    {
+      "n": 20,
+      "question": "من هي الفنانه التي قام أحمد عز بدور البطوله امامها في عام 2004؟",
+      "reference": "لعب دور البطولة أمام الفنانة يسرا",
+      "rag_answer": "يسرا",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 21,
+      "question": "متى ولد محمد على؟",
+      "reference": "17 يناير 1942",
+      "rag_answer": "محمد علي ولد في 17 يناير 1942.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 22,
+      "question": "هل حققت منظمة عصبة الأمم أهدافها؟",
+      "reference": "الحرب العالمية الثانية، مما أدى إلى نشوء الأمم المتحدة بعد إنتصار الحلفاء وتم إلغاء",
+      "rag_answer": "لا يمكنني التأكيد بشكل قاطع على تحقيق الأهداف التي كانت تهدف إليها عصبة الأمم، لكن من المعروف أنها فشلت في مهامها بعد الحرب العالمية الثانية.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 23,
+      "question": "من هو الحجاج؟",
+      "reference": "هو أبو محمد الحجاج كليب بن يوسف بن الحكم",
+      "rag_answer": "هو أبو محمد الحجاج بن يوسف الثقفي.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 24,
+      "question": "اين ولد جندح؟",
+      "reference": "ولد في نجد لقبيلة كندة اليمنية،",
+      "rag_answer": "عرب الأطاولة، محافظة أسيوط، مصر.",
+      "retrieval_found_paragraph": false,
+      "judgement": "wrong",
+      "note": ""
+    },
+    {
+      "n": 25,
+      "question": "من امه؟",
+      "reference": "الفارعة بنت همام بن عروة بن مسعود الثقفي",
+      "rag_answer": "زبيبة",
+      "retrieval_found_paragraph": false,
+      "judgement": "wrong",
+      "note": ""
+    },
+    {
+      "n": 26,
+      "question": "ما شهرة المرب ابو العينين؟",
+      "reference": "الشهير بـ\"أبو\"،",
+      "rag_answer": "نجحت أغنية 3 دقات في تحقيق نجاح كبير وبلغت مشاهدها 90 مليون مشاهدة خلال شهرين فقط.",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "unrelated sentence from the paragraph"
+    },
+    {
+      "n": 27,
+      "question": "كم تبلغ مساحة الكويت؟",
+      "reference": "17،818 كيلومتر مربع،",
+      "rag_answer": "17,818 كيلومتر مربع.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 28,
+      "question": "من هو والد سليمان خان؟",
+      "reference": "سليم خان الأول",
+      "rag_answer": "أبيه السلطان سليم خان الأول.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 29,
+      "question": "كم تبلغ مساحة الصين؟",
+      "reference": "9.6 مليون كيلومتر مربع",
+      "rag_answer": "9,600,000 كيلومتر مربع (3,700,000 ميل مربع)",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 30,
+      "question": "و ماذا كانت نتيجة الاجتماع؟",
+      "reference": "فتوحدوا على الأسماء الحالية.",
+      "rag_answer": "الرسول (صلى الله عليه وسلم) اخبر قريش بما حدث معه.",
+      "retrieval_found_paragraph": false,
+      "judgement": "wrong",
+      "note": ""
+    },
+    {
+      "n": 31,
+      "question": "بحق من ارتكب جنكيز خان مجازره؟",
+      "reference": "بحق المسلمين.",
+      "rag_answer": "المسلمين.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 32,
+      "question": "ماذا اكد عبد الفتاح السيسى بخصوص الشرطة العسكرية؟",
+      "reference": "أفرادا من الشرطة العسكرية قد أجروا، في مارس 2011، ما عُرف إعلاميًا بكشوف العذرية،",
+      "rag_answer": "أكد عبد الفتاح السيسي أن أفرادًا من الشرطة العسكرية أجروا كشوف العذرية في مارس 2011، واعتبرها مبررة لأنها تحمي الفتيات من الاغتصاب وتحمي الجنود من الاتهام بالاغتصاب.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 33,
+      "question": "ما اهم البطولات اللتى حققها مع النادى الملكى؟",
+      "reference": "دوري أبطال أوروبا ثلاث مرات متتالية",
+      "rag_answer": "61 بطولة محلية، 97 بطولة إجمالية.",
+      "retrieval_found_paragraph": false,
+      "judgement": "wrong",
+      "note": ""
+    },
+    {
+      "n": 34,
+      "question": "ماهو النظام الخاصّ بدولة النمسا؟",
+      "reference": "النمسا هي جمهورية فيدرالية",
+      "rag_answer": "democracy التمثيلية البرلمانية شبه رئاسي",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "unsupported answer with an English word"
+    },
+    {
+      "n": 35,
+      "question": "متى اعتزل اللاعب رونالدو لعب كرة القدم؟",
+      "reference": "في فبراير عام 2011،",
+      "rag_answer": "فبراير عام 2011.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 36,
+      "question": "ما اسم محمد على بالالبانية؟",
+      "reference": "Mehmet Ali Pasha)،",
+      "rag_answer": "Mehmet Ali Pasha",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 37,
+      "question": "ما الدول التي تحد السودان من الغرب؟",
+      "reference": "تشاد وجمهورية أفريقيا الوسطى",
+      "rag_answer": "السودان يُحد منه من الغرب إريتريا وليبيا.",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "wrong neighboring countries"
+    },
+    {
+      "n": 38,
+      "question": "بمازا تسمى الابراج؟",
+      "reference": "تحمل الأبراج أسماء حيوانات وأشياء وشخصيات دينية وأسطورية.",
+      "rag_answer": "الأبراج تُسمى حسب القوائم التي تمر فيها الشمس والقمر والكواكب الثمانية.",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "misread the paragraph"
+    },
+    {
+      "n": 39,
+      "question": "كم يبلغ الناتج المحلى للكويت عام 2011؟",
+      "reference": "قرابة 45,455 دولار أمريكي",
+      "rag_answer": "تعادل القدرة الشرائية 167.9 مليار دولار.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": "gives total GDP (also in the paragraph); reference gives per-capita GDP"
+    },
+    {
+      "n": 40,
+      "question": "مازا يميز الابراج عن الكوكبات؟",
+      "reference": "بالعين المجردة، و الأبراج هي تقسیمات للدّائرة التي تمر فيها الشمس والقمر والكواكب الثمانية.",
+      "rag_answer": "يتميز الأبراج عن الكوكبات أنها تقسيمات لتحديد خريطة السماء مع جميع الأجسام المرئية بالعين المجردة.",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "confused zodiac signs with constellations"
+    },
+    {
+      "n": 41,
+      "question": "ما هى المنظمات اللتى اشتركت اذربيجان فى تاسيسها؟",
+      "reference": "لمجموعة غوام ومنظمة حظر الأسلحة الكيميائية",
+      "rag_answer": "مجموعة غوام، منظمة حظر الأسلحة الكيميائية، رابطة الدول المستقلة.",
+      "retrieval_found_paragraph": true,
+      "judgement": "partial",
+      "note": "two correct founding memberships plus one the paragraph says was joined later"
+    },
+    {
+      "n": 42,
+      "question": "بماذا يعرف التوحد؟",
+      "reference": "يُعرف باسم الذاتوية أو اضطراب التوحد الكلاسيكي.",
+      "rag_answer": "توحد كما يُعرف باسم الذاتوية أو اضطراب التوحد الكلاسيكي.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 43,
+      "question": "من ابوه؟",
+      "reference": "يوسف بن الحكم",
+      "rag_answer": "أبوه حجر ملكاً على بني أسد وغطفان.",
+      "retrieval_found_paragraph": false,
+      "judgement": "wrong",
+      "note": ""
+    },
+    {
+      "n": 44,
+      "question": "من كان رئيس الجكومة المدنية وقت الإنقلاب؟",
+      "reference": "الصادق المهدي",
+      "rag_answer": "صادق المهدي",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 45,
+      "question": "متى وقعت غزوة بدر؟",
+      "reference": "السابع عشر من رمضان في العام الثاني من الهجرة",
+      "rag_answer": "الغزوة حدثت في السابع عشر من رمضان في العام الثاني من الهجرة (624 م).",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 46,
+      "question": "وما اسمها رسميا؟",
+      "reference": "جمهورية أذربيجان",
+      "rag_answer": "عُرِقُ.",
+      "retrieval_found_paragraph": false,
+      "judgement": "wrong",
+      "note": ""
+    },
+    {
+      "n": 47,
+      "question": "ماهي تسمية دولة المرابطين آنذاك؟",
+      "reference": "«دولة الرباط والإصلاح».",
+      "rag_answer": "دولة الرباط والإصلاح.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 48,
+      "question": "اين نقع كندا؟",
+      "reference": "في أمريكا الشمالية",
+      "rag_answer": "المحيط الأطلسي.",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "wrong location"
+    },
+    {
+      "n": 49,
+      "question": "ماهي الدول التي تحدّ جمهورية النمسا؟",
+      "reference": "التشيك وألمانيا في الشمال والمجر وسلوفاكيا إلى الشرق وسلوفينيا وإيطاليا من الجنوب، وسويسرا وليختنشتاين",
+      "rag_answer": "جمهورية التشيك وألمانيا في الشمال، المجر وسلوفاكيا إلى الشرق، سلوفينيا وإيطاليا من الجنوب، سويسرا وليختنشتاين من الغرب.",
+      "retrieval_found_paragraph": true,
+      "judgement": "correct",
+      "note": ""
+    },
+    {
+      "n": 50,
+      "question": "أين درس دونالد ترامب؟",
+      "reference": "كلية وارتون في جامعة بنسلفانيا",
+      "rag_answer": "大学校",
+      "retrieval_found_paragraph": true,
+      "judgement": "wrong",
+      "note": "answered in Chinese characters"
+    }
+  ]
+}
