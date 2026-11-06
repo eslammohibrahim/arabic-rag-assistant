@@ -2,13 +2,9 @@
 
 [![tests](https://github.com/eslammohibrahim/arabic-rag-assistant/actions/workflows/tests.yml/badge.svg)](https://github.com/eslammohibrahim/arabic-rag-assistant/actions/workflows/tests.yml)
 
-A question-answering assistant for Arabic. It searches a collection of Arabic Wikipedia paragraphs, hands the most relevant ones to a small local language model, and returns a short answer together with its sources. Everything runs on a laptop CPU, with no paid API.
+You ask a question in Arabic, it searches a set of Arabic Wikipedia paragraphs, gives the best three to a small language model running locally, and answers with the sources it used. No paid API, everything runs on my laptop's CPU.
 
-**Results:**
-- **Retrieval:** the right paragraph is in the top 3 for **89%** of test questions. That's a hybrid of keyword and embedding search, chosen on separate dev questions.
-- **Answers:** retrieval multiplies answer quality. Word-overlap F1 goes from **0.11** without retrieval to **0.50** with it, and to 0.61 when the model is handed the correct paragraph.
-- **Manual review:** **54%** of 50 random answers were correct. That rises to **67.5%** when retrieval found the right paragraph, and drops to **0%** when it didn't.
-- **Runs offline** on a laptop CPU, taking about 13 seconds per question.
+In numbers: for 89% of test questions the right paragraph shows up in the top 3 search results. Retrieval is what makes the answers work. Without it the model gets an F1 of 0.11, with it 0.50 (0.61 is the ceiling, when I hand it the correct paragraph myself). I also read 50 random answers by hand: 27 were correct. When search found the right paragraph that went up to 27 out of 40, and when it didn't, none of the 10 were right. One answer takes about 13 seconds on CPU.
 
 ```text
 Question: ما الجائزة التي حصل عليها نجيب محفوظ؟
@@ -22,25 +18,19 @@ Sources:  [1] نجيب محفوظ  [2] نجيب محفوظ  [3] نجيب محف�
 question ──► retrieval (BM25 + embeddings, fused) ──► top 3 paragraphs ──► qwen2.5 1.5B (local, Ollama) ──► answer + sources
 ```
 
-1. **Retrieval:** a hybrid of keyword search (BM25 with Arabic normalization and light stemming) and semantic search (multilingual-e5-small embeddings), combined with reciprocal rank fusion.
-2. **Generation:** the question and the top 3 paragraphs go to `qwen2.5:1.5b` running locally through [Ollama](https://ollama.com). The prompt tells the model to answer only from the paragraphs, and to say "لا أعرف" when the answer isn't there.
-3. **Sources:** every answer comes back with the paragraphs it was based on, so it can be checked.
+Search combines two methods. BM25 does keyword matching, after Arabic normalization and a light stemmer that strips "ال" and attached prepositions. multilingual-e5-small does semantic search with embeddings. The two rankings are merged with reciprocal rank fusion.
+
+The question and the top 3 paragraphs then go to `qwen2.5:1.5b` through [Ollama](https://ollama.com). The prompt asks it to answer only from the paragraphs and to say "لا أعرف" if the answer isn't there. The API returns the paragraphs along with the answer so you can check where it came from.
 
 ## Data
 
-[ARCD](https://huggingface.co/datasets/hsseinmz/arcd) (Arabic Reading Comprehension Dataset, MIT license): crowd-written questions about Arabic Wikipedia articles, with answer spans.
+[ARCD](https://huggingface.co/datasets/hsseinmz/arcd) (Arabic Reading Comprehension Dataset, MIT license) has crowd-written questions about Arabic Wikipedia articles, each with an answer span. That gives 460 unique paragraphs from 146 articles to search over, and 1,388 questions after removing 7 duplicates. I used ARCD's train split (691 questions) as a dev set to pick the retrieval method, and kept the validation split (697 questions) as the test set.
 
-- **460 paragraphs** from 146 articles form the searchable collection.
-- **1,388 questions** (7 duplicates removed), each linked to the paragraph that answers it.
-- ARCD's train split (691 questions) is used as a **dev set** to choose the retrieval method. Its validation split (697 questions) is the **test set**, used only to confirm the final numbers.
-
-Two things about the data affect the results:
-- **Many questions depend on their paragraph.** "بماذا اشتهر؟" ("what was he known for?") doesn't say who "he" is, because the person writing it was looking at the paragraph.
-- **Some reference answers are wrong or oddly cut.** For example, the reference answer to "متى ولد توماس ألفا أديسون؟" is "ألفا", which is part of his name and not a date, and several answers include stray brackets. This drags automatic scores down even when the model is right, which is why the answers are also checked by hand (see below).
+Two things about this data matter for the results. A lot of questions only make sense next to their paragraph, like "بماذا اشتهر؟" (what was he known for?), which doesn't say who. And some reference answers are just wrong: the answer to "متى ولد توماس ألفا أديسون؟" is "ألفا", which is part of his name, not a date. Others have stray brackets. That pulls the automatic scores down even when the model is right, so I also checked answers by hand.
 
 ## Retrieval
 
-Each method is scored on whether the correct paragraph appears among its top results.
+Scored by whether the paragraph the question was written about comes back in the top results.
 
 | Method | Dev: top 3 | Test: top 1 | Test: top 3 | Test: top 5 | Test MRR@10 |
 |---|---|---|---|---|---|
@@ -49,35 +39,32 @@ Each method is scored on whether the correct paragraph appears among its top res
 | Dense: multilingual-e5-small | 88.9% | 61.1% | 85.8% | 90.2% | 0.739 |
 | Dense: multilingual-e5-base | 88.1% | 62.0% | 86.5% | 91.5% | 0.748 |
 | Dense: paraphrase-multilingual-MiniLM | 55.4% | 33.9% | 54.5% | 60.4% | 0.455 |
-| **Hybrid: BM25 + stemming + e5-small** | **91.5%** | **68.0%** | **89.0%** | **92.3%** | **0.784** |
+| Hybrid: BM25 + stemming + e5-small | 91.5% | 68.0% | 89.0% | 92.3% | 0.784 |
 
 ![Retrieval quality](reports/figures/retrieval.png)
 
-- **The hybrid is the best method, and it was chosen on dev questions only.** Keyword search and embeddings make different mistakes, so fusing them helps: 89% of test questions get their paragraph in the top 3.
-- **Light stemming helps keyword search.** It removes the article and attached prepositions (والمدينة → مدينه), raising top-1 from 62.7% to 65.3%.
-- **The larger e5-base model isn't better than e5-small here**, even though it's more than twice the size (278M vs 118M parameters).
-- **The paraphrase model is weak (54.5%).** It was trained to match sentences with similar meaning, not questions with the paragraphs that answer them.
+I picked the hybrid based on the dev questions, and it held up on test. Keyword search and embeddings fail on different questions, so combining them helps. The light stemmer was worth adding to BM25 (top-1 went from 62.7% to 65.3%). I expected e5-base to beat e5-small since it's more than twice the size (278M vs 118M parameters), but it didn't. The paraphrase model did badly because it was trained to match similar sentences, not a question to the paragraph that answers it.
 
-**Why retrieval misses** ([`src/analyze_misses.py`](src/analyze_misses.py)):
+To see why search misses, I split the test questions ([`src/analyze_misses.py`](src/analyze_misses.py)):
 
 | Test questions | Count | Correct paragraph in top 3 |
 |---|---|---|
-| Name their subject (e.g. "ما الجائزة التي حصل عليها نجيب محفوظ؟") | 444 | **95.7%** |
+| Name their subject (e.g. "ما الجائزة التي حصل عليها نجيب محفوظ؟") | 444 | 95.7% |
 | Don't name it (e.g. "بماذا اشتهر؟") | 253 | 77.1% |
 | Two content words or fewer | 85 | 67.1% |
 
-Most misses come from questions that don't contain enough information on their own, not from weak search. In a real chat assistant, the fix is to rewrite each question using the conversation so far before searching.
+So most misses are questions that don't carry enough information on their own. In a chat app you'd fix this by rewriting the question using the previous messages before searching.
 
-**Overlapping paragraphs.** 76 paragraphs (16.5%) are fully contained in a longer paragraph from the same article, so returning the longer version counts as a miss above. With a more lenient metric, "the answer text appears in the retrieved paragraphs", the hybrid reaches 74.3% at top 1 and 89.5% at top 3. The ranking of the methods doesn't change.
+One more thing I found in the data: 76 paragraphs (16.5%) are fully contained inside a longer paragraph from the same article. If search returns the longer one, the table above counts it as a miss even though the answer is there. Counting a hit whenever the answer text appears in the retrieved paragraphs, the hybrid gets 74.3% at top 1 and 89.5% at top 3. The order of the methods stays the same.
 
 ## Answers
 
-The same model answered the same 300 random test questions in three settings:
+I ran the same 300 random test questions through the model three ways:
 
 | Setting | Exact match | Word-overlap F1 | Answer contained | Says "لا أعرف" |
 |---|---|---|---|---|
 | No retrieval (closed book) | 0.3% | 0.11 | 3.3% | 0% |
-| **RAG: top 3 retrieved paragraphs** | **23.0%** | **0.50** | **36.3%** | 0.3% |
+| RAG: top 3 retrieved paragraphs | 23.0% | 0.50 | 36.3% | 0.3% |
 | Correct paragraph given (upper bound) | 29.3% | 0.61 | 43.3% | 0.7% |
 
 ![Answer quality](reports/figures/answers.png)
@@ -87,25 +74,21 @@ The same model answered the same 300 random test questions in three settings:
 | Retrieval found the right paragraph | 255 | 0.58 | 41.2% |
 | Retrieval missed it | 45 | 0.08 | 8.9% |
 
-- **Without retrieval, the model almost never knows, and it never admits it.** It answered every question, with an F1 of 0.11. A 1.5B model hasn't memorized Arabic Wikipedia.
-- **Retrieval is the bottleneck.** When the right paragraph is retrieved, answers are close to the upper bound. When it isn't, they are almost always wrong.
+Without retrieval the model basically doesn't know the answers, but it never says so. It answered all 300 questions anyway. With retrieval, the answers get close to the upper bound whenever the right paragraph is found, which makes retrieval the part worth improving.
 
-**Manual review.** Automatic scores undercount, because the model rephrases correct answers and some reference answers are wrong. So 50 random RAG answers were read against their paragraphs ([`reports/manual_review.json`](reports/manual_review.json)):
+The automatic scores undercount, because the model rewords correct answers and some references are wrong. So I read 50 random RAG answers against their paragraphs ([`reports/manual_review.json`](reports/manual_review.json)):
 
 | | Correct | Partly correct | Wrong |
 |---|---|---|---|
-| All 50 answers | **27 (54%)** | 2 | 21 |
-| Retrieval found the right paragraph (40) | **27 (67.5%)** | 2 | 11 |
+| All 50 answers | 27 (54%) | 2 | 21 |
+| Retrieval found the right paragraph (40) | 27 (67.5%) | 2 | 11 |
 | Retrieval missed (10) | 0 | 0 | 10 |
 
-When the paragraph was there, the mistakes were:
-- misreading it, for example the wrong neighboring countries;
-- **drifting out of Arabic**: one answer came out in Chinese characters, and "من رسم الموناليزا؟" was answered "Leonardo da Vinci" in English;
-- an unhelpful answer that repeated the question.
+When the paragraph was there and the answer was still wrong, it was usually a misreading (the wrong neighboring countries, for example), and once it just repeated the question. The model also drifts out of Arabic sometimes: one reviewed answer came out in Chinese characters, and when I tried "من رسم الموناليزا؟" myself it answered "Leonardo da Vinci" in English.
 
-**Known weakness: questions outside the collection.** Asked "ما هي عاصمة البرازيل؟", which no paragraph covers, the retriever returned unrelated paragraphs (about Ronaldo and Morocco). The model answered from memory instead of saying "لا أعرف", and got it wrong ("رويو دي جانيرو"; the capital is Brasília). The prompt alone doesn't stop a small model from guessing.
+It also guesses on questions the collection doesn't cover. I asked "ما هي عاصمة البرازيل؟", search returned unrelated paragraphs (Ronaldo, Morocco), and instead of "لا أعرف" the model answered from memory, wrongly ("رويو دي جانيرو"; the capital is Brasília). A prompt isn't enough to stop a 1.5B model from guessing.
 
-**Speed.** Answering takes about 13 seconds per question (median of 20, `/ask` end to end on a laptop CPU), mostly the model reading the three paragraphs. Without paragraphs, the model answers in 1.5 seconds.
+Speed: about 13 seconds per question (median of 20 calls to `/ask` on my laptop CPU). Most of that is the model reading the three paragraphs. Without paragraphs it answers in about 1.5 seconds.
 
 ## API
 
@@ -136,7 +119,7 @@ curl -X POST http://127.0.0.1:8000/ask -H "Content-Type: application/json" -d '{
 }
 ```
 
-If the language model server isn't running, `/ask` returns `503` instead of crashing. A question shorter than 3 characters returns `422`.
+If Ollama isn't running, `/ask` returns 503 instead of crashing, and a question under 3 characters returns 422.
 
 ## Run it
 
@@ -179,9 +162,6 @@ tests/                 text, metrics, and API tests
 reports/               results (JSON), every generated answer (JSONL), figures
 ```
 
-## Next steps
+## What I'd do next
 
-- **Rewrite follow-up questions** using the conversation so far, before searching. Most retrieval misses are questions like "بماذا اشتهر؟".
-- **Add an answerability check:** refuse when the retrieved paragraphs don't match the question, instead of relying on the prompt.
-- **Keep answers in Arabic:** compare larger models (qwen2.5 3B and 7B) and check the language of the output.
-- **Make it faster:** retrieve fewer, shorter passages, or use a GPU.
+Rewrite follow-up questions using the conversation before searching, since that's where most retrieval misses come from. Add a real answerability check that refuses when the retrieved paragraphs don't match the question, instead of trusting the prompt. Try qwen2.5 3B and 7B to see if they stay in Arabic. And speed it up, either with fewer and shorter paragraphs or a GPU.
